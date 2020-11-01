@@ -44,7 +44,7 @@ public class HomeWorkTree {
                 break;
         }
     }
-    
+
     public static void conclusion (String write, int attempt){
 
         System.out.printf("%s \nУ вас осталось %d попытки", write, attempt);
