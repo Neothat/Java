@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class HomeWorkFour {
     // Параметры игры
     public static final int SIZE = 5;
-    public static final int DOTS_TO_WIN = 2;
+    public static final int DOTS_TO_WIN = 4;
 
     // Константы •, X, O, отступ
     public static final char DOT_EMPTY = '•';
@@ -19,6 +19,7 @@ public class HomeWorkFour {
     public static Scanner scanner = new Scanner(System.in);
     public static Random random = new Random();
     // Основной метод
+
     public static void main(String[] args) {
 
         // Инициализация игрового поля
@@ -32,13 +33,16 @@ public class HomeWorkFour {
             
             // Ход игрока
             humanTurn();
+
             // Вывод игрового поля
             printMap();
+
             // Проверка победителя
             if (checkWin(DOT_X)){
                 System.out.println("Игрок одержал победу");
                 break;
             }
+
             // Проверка на заполненомть поля
             if (isMapFull()){
                 System.out.println("Ничья");
@@ -47,19 +51,23 @@ public class HomeWorkFour {
 
             // Ход ИИ
             aiTurn();
+
             // Вывод игрового поля
             printMap();
+
             // Проверка победителя
             if (checkWin(DOT_O)){
                 System.out.println("ИИ одержал победу");
                 break;
             }
+
             // Проверка на заполненомть поля
             if (isMapFull()){
                 System.out.println("Ничья");
                 break;
             }
         }
+
         // Игра закончена
         System.out.println("Игра завершена");
     }
@@ -75,27 +83,91 @@ public class HomeWorkFour {
 
     private static boolean checkWin(char symbol) {
         for (int i = 0; i < SIZE; i++) {
-            if (checkLineColumn(i, 0, 0, 1, symbol)) return true; // Проверяем столбец
-            if (checkLineColumn(0, i, 1, 0, symbol)) return true; // Проверяем строку
+            if (checkLineColumn(i, 0, 0, 1, 0, symbol)) return true; // Проверяем столбец
+            if (checkLineColumn(0, i, 1, 0, 0, symbol)) return true; // Проверяем строку
         }
-        if (checkLineColumn(0, 0, 1, 1, symbol)) return true;
-        if (checkLineColumn(0, SIZE-1, 1, -1, symbol)) return true;
+        for (int i = 0; i <= SIZE-DOTS_TO_WIN; i++) { // Проверям диагонали
+            if (checkLineColumn(i, 0, 1, 1, i, symbol)) return true;
+            if (checkLineColumn(0, i, 1, 1, i, symbol)) return true;
+            if (checkLineColumn(i, SIZE-1, 1, -1, i, symbol)) return true;
+            if (checkLineColumn(0, SIZE-(1+i), 1, -1, i, symbol)) return true;
+        }
         return false;
     }
 
-    private static boolean checkLineColumn(int column, int line, int changeColumn, int changeLine, char symbol) {
-        for (int i = 0; i < DOTS_TO_WIN; i++) {
-            if (map[line + i * changeLine][column + i * changeColumn] != symbol) return false;
+    /*
+    Метод принимает 6 параметров
+    1-ый отвечает за номер столбца
+    2-ой отвечает за номер строки
+    3-ий в связке с i отвечает за передвижение в другой столбец
+    4-ый в связке с i отвечает за передвижение в другую строку
+    5-ый используется при проверке диагоналей и нужен что бы не вылететь за пределы массива,
+    так как ближе к углам игрового поля диагоноль становиться меньше
+    6-ой отвечает за то, с каким символом мы будем сравнивать
+     */
+    private static boolean checkLineColumn(int column, int line, int changeColumn, int changeLine, int changeDiagonal, char symbol) {
+        int dots = 0;
+        for (int i = 0; i < SIZE-changeDiagonal; i++) {
+            if (map[line + i * changeLine][column + i * changeColumn] == symbol) {
+                dots++;
+            } else {
+                dots = 0;
+            }
+            if(dots == DOTS_TO_WIN){
+                return true;
+            }
         }
-        return true;
+        return false;
     }
 
     private static void aiTurn() {
-        int x, y;
-        do{
-           x = random.nextInt(SIZE);
-           y = random.nextInt(SIZE);
-        } while (isCellValid(x, y));
+        int x = -1;
+        int y = -1;
+        boolean aiWin = false;
+        boolean userWin = false;
+
+        // Если у ИИ есть выигрышный ход то он его сделает
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                if (!isCellValid(i, j)){
+                    map[j][i] = DOT_O;
+                    if (checkWin(DOT_O)){
+                        x = i;
+                        y = j;
+                        aiWin = true;
+                    }
+                    map[j][i] = DOT_EMPTY;
+                }
+            }
+        }
+
+        /* Если у ИИ нет выигрышного хода, но следующий ход игрока может стать победным,
+        то он попытается его заблокировать */
+        if (!aiWin) {
+            for (int i = 0; i < SIZE; i++) {
+                for (int j = 0; j < SIZE; j++) {
+                    if (!isCellValid(i, j)) {
+                        map[j][i] = DOT_X;
+                        if (checkWin(DOT_X)) {
+                            x = i;
+                            y = j;
+                            userWin = true;
+                        }
+                        map[j][i] = DOT_EMPTY;
+                    }
+
+                }
+
+            }
+        }
+
+        // Если следующий ход ИИ не выиграшный и не блокирует победу Игрока, то ИИ ходит хаотично
+        if (!userWin && !aiWin) {
+            do {
+                x = random.nextInt(SIZE);
+                y = random.nextInt(SIZE);
+            } while (isCellValid(x, y));
+        }
         map[y][x] = DOT_O;
     }
 
