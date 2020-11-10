@@ -36,14 +36,16 @@ public class HomeWorkTwo {
         //Задание с прохождением цикла и умножением на 2 выполнено
         System.out.println();
 
-        int[][] fourthArray = new int[3][3];
-        for (int i = 0; i < 3; i++) {
+        int size = 6;
+        int[][] fourthArray = new int[size][size];
+        for (int i = 0; i < size; i++) {
             fourthArray[i][i] = 1;
+            fourthArray[i][size - i - 1] = 1;
         }
         System.out.println("4) ");
-        for (int[] i : fourthArray) {
-            for (int j = 0; j < i.length; j++) {
-                System.out.print(i[j] + "\t");
+        for (int i = 0; i < fourthArray.length; i++) {
+            for (int j = 0; j < fourthArray.length; j++) {
+                System.out.print(fourthArray[i][j] + " ");
             }
             System.out.println();
         }
