@@ -1,24 +1,24 @@
 package ru.neothat;
 
-import java.util.Scanner;
-
 public class EmployeesHomeWorkFive {
     // Idea предлагает все поля которые не изменяются сделать final
     private final String fullName;
     private final String position;
     private final String email;
-    private final long phoneNumbers;
-    private int salary;
+    private final String phoneNumbers;
+    private Double salary;
     private final int age;
+    private final int id;
 
     public EmployeesHomeWorkFive(String fullName, String position, String email,
-                                 long phoneNumbers, int salary, int age){
+                                 String phoneNumbers, Double salary, int age, int id){
         this.fullName = fullName;
         this.position = position;
         this.email = email;
         this.phoneNumbers = phoneNumbers;
         this.salary = salary;
         this.age = age;
+        this.id = id;
     }
 
     //Допусти это супер маленькая компания по созданию инди игр,
@@ -35,76 +35,31 @@ public class EmployeesHomeWorkFive {
         return email;
     }
 
-    public long getPhoneNumbers() {
+    public String getPhoneNumbers() {
         return phoneNumbers;
     }
 
-    public int getSalary() {
-        return salary;
+    public void setSalary(Double salary) {
+        this.salary = salary;
     }
 
-    public void setSalary(int salary) {
-        this.salary = salary;
+    public Double getSalary() {
+        return salary;
     }
 
     public int getAge() {
         return age;
     }
 
-    public static void main(String[] args) {
-        EmployeesHomeWorkFive[] personArray = new EmployeesHomeWorkFive[5];
-        personArray[0] = new EmployeesHomeWorkFive(
-                "Абрамов Игорь Даниилович",
-                "Программист",
-                "IgorDaniilovich@gmail.com",
-                89856664013L,
-                2440,
-                22
-                );
-        personArray[1] = new EmployeesHomeWorkFive(
-               "Исаева София Артёмовна",
-               "Композитор",
-                "SofiaArtyomovna@gmail.com",
-                89856662789L,
-                2000,
-                19
-        );
-        personArray[2] = new EmployeesHomeWorkFive(
-                "Пугачева Таисия Михайловна",
-                "Гейм-диайнер",
-                "TaisiyaMikhailovna@gmail.com",
-                89363334244L,
-                3200,
-                24
-        );
-        personArray[3] = new EmployeesHomeWorkFive(
-                "Сорокин Руслан Антонович",
-                "Художник",
-                "RuslanAntonovich@gmail.com",
-                89269999027L,
-                2300,
-                45
-        );
-        personArray[4] = new EmployeesHomeWorkFive(
-                "Орлова Полина Романовна",
-                "Продюсер",
-                "PolinaRomanovna@gmail.com",
-                89917621210L,
-                3400,
-                50
-        );
-
-        System.out.println("Сотрудники которым больше 40 лет: ");
-        for (EmployeesHomeWorkFive employeesHomeWorkFive : personArray) {
-            if (employeesHomeWorkFive.getAge() > 40) PrintPerson(employeesHomeWorkFive);
-        }
+    public int getId() {
+        return id;
     }
 
-    private static void PrintPerson(EmployeesHomeWorkFive person) {
-            System.out.printf("ФИО: %s\nДолжность: %s\nПочта: %s\nНомер телефона: %d\nЗарплата: %d$\nВозраст: %d",
-                    person.getFullName(), person.getPosition(), person.getEmail(), person.getPhoneNumbers(),
-                    person.getSalary(), person.getAge());
-            System.out.println();
+    public void PrintPerson() {
+        System.out.printf("ФИО: %s\nДолжность: %s\nПочта: %s\nНомер телефона: %s\nЗарплата: %f$\nВозраст: %d \nId: %d",
+                getFullName(), getPosition(), getEmail(), getPhoneNumbers(),
+                getSalary(), getAge(), getId());
+        System.out.println();
             System.out.println();
     }
 }
