@@ -1,7 +1,12 @@
 package ru.neothat;
 
 public class Cat extends Animal{
-    protected int runLimit = 200;
-    protected int swimLimit = 2;
-    protected int jumpLimit = 0;
+
+    public Cat() {
+        super(
+                100 + random.nextDouble() * 201, // [100,0 .. 300,0]
+                0, // Коты не могу плыть :'(
+                1 + random.nextDouble() * 3 // [1,0 .. 3,0]
+        );
+    }
 }
