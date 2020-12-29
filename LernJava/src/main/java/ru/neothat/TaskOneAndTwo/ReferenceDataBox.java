@@ -1,9 +1,10 @@
-package ru.neothat;
+package ru.neothat.TaskOneAndTwo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ReferenceDataBox<T> {
-    private T[] obj;
+    private final T[] obj;
 
     @SafeVarargs
     public ReferenceDataBox(T... obj) {
@@ -14,10 +15,6 @@ public class ReferenceDataBox<T> {
         return obj;
     }
 
-    public void setObj(T[] obj) {
-        this.obj = obj;
-    }
-
     public void swap(int positionOne, int positionTwo){
         T temp = obj[positionOne];
         obj[positionOne] = obj[positionTwo];
@@ -25,6 +22,7 @@ public class ReferenceDataBox<T> {
     }
 
     public void transformation(){
-        ArrayList<T> arrayList = new ArrayList<>(this);
+        ArrayList<T> arrayList = new ArrayList<>(List.of(getObj()));
+        System.out.println("Преобразование прошло успешно: " + arrayList);
     }
 }

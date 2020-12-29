@@ -1,6 +1,5 @@
-package ru.neothat;
+package ru.neothat.TaskOneAndTwo;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class HomeWorkOne {
@@ -24,6 +23,10 @@ public class HomeWorkOne {
         System.out.println(Arrays.toString(NUMBERS.getObj()));
         System.out.println(Arrays.toString(NAMES.getObj()));
         System.out.println(Arrays.toString(SYMBOL.getObj()));
+
+        NUMBERS.transformation();
+        NAMES.transformation();
+        SYMBOL.transformation();
     }
 
 
